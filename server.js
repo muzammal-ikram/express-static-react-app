@@ -30,11 +30,11 @@ app.get('/api/genericCall', (req, res) => {
   res.send(response);
 });
 
-app.post('/', async (req, res) => {
+app.post('/api/addMember', async (req, res) => {
   const { firstname, email, tag } = req.body
 const addListMember = async () => {
       try {
-          const response = await  mailchimp.lists.addListMember(list_id, {
+          const response = await  mailchimp.lists.addListMember(process.env.MAILING_LIST_ID, {
               email_address: email,
               status: 'subscribed',
               email_type: 'text',
