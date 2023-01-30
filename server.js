@@ -13,15 +13,15 @@ app.use(express.static(path.resolve(__dirname, '.', 'build')));
 
 //routes
 //
-//app.get('/api/memberList', (req, res) => {
-//  mailchimp.get(`/lists/${list_id}/members`)
-//  .then(function(results){
-//    res.send(results);
-//  })
-//  .catch(function(err){
-//    res.send(err);
-//  });
-//});
+app.get('/api/memberList', (req, res) => {
+  mailchimp.get(`/lists/${list_id}/members`)
+  .then(function(results){
+    res.send(results);
+  })
+  .catch(function(err){
+    res.send(err);
+  });
+});
 
 app.get('/api/genericCall', (req, res) => {
   let response = {
@@ -30,7 +30,7 @@ app.get('/api/genericCall', (req, res) => {
   res.send(response);
 });
 
-app.post('/api/audience/add/member', async (req, res) => {
+app.post('/audience/add/member', async (req, res) => {
   const { firstname, lastname, email, tag } = req.body
 const addListMember = async () => {
       try {
