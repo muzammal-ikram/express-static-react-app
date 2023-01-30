@@ -30,7 +30,7 @@ app.get('/api/genericCall', (req, res) => {
   res.send(response);
 });
 
-app.post('/audience/add/member', async (req, res) => {
+app.post('/api/addMember', async (req, res) => {
   const { firstname, lastname, email, tag } = req.body
 const addListMember = async () => {
       try {

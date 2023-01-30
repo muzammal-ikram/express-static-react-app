@@ -23,6 +23,21 @@ class App extends Component {
     });
   }
 
+  addMember = () => {
+    fetch("/api/addMember")
+    .then((res) => {
+      return res.json();
+    }).then( (json) => {
+      this.setState({
+        listMembers: json.members
+      });
+    })
+    .catch((err) => {
+      console.log("error", err);
+    });
+  }
+
+
   testApiCall = () => {
     fetch("/api/genericCall")
     .then((res) => {
@@ -47,7 +62,7 @@ class App extends Component {
               )
             }
           </ul>
-          <button onClick={this.getMembers}>Get Members</button>
+          <button onClick={this.addMember}>Get Members</button>
           <hr/>
           <button onClick={this.testApiCall}>Test Api Call</button>
           <h1>{this.state.msg}</h1>
@@ -57,7 +72,7 @@ class App extends Component {
     return (
       <div>
         <h1>Mailing List Members</h1>
-        <button onClick={this.getMembers}>Get Members</button>
+        <button onClick={this.addMember}>Get Members</button>
         <hr/>
         <button onClick={this.testApiCall}>Test Api Call</button>
         <h3>{this.state.msg}</h3>
