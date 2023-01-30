@@ -31,16 +31,16 @@ app.get('/api/genericCall', (req, res) => {
 });
 
 app.post('/api/addMember', async (req, res) => {
-  const { firstname, lastname, email, tag } = req.body
+  const { firstname, email, tag } = req.body
 const addListMember = async () => {
       try {
           const response = await  mailchimp.lists.addListMember(list_id, {
               email_address: email,
               status: 'subscribed',
-              email_type: 'html',
+              email_type: 'text',
               merge_fields: {
                   FNAME: firstname,
-                  LNAME: lastname
+                  LNAME: ''
               },
               tags: [tag]
           })
