@@ -11,7 +11,7 @@ const mailchimp = new Mailchimp(mc_api_key);
 
 app.use(express.static(path.resolve(__dirname, '.', 'build')));
 app.use(express.json());
-app.use('/api', Anyroute)
+
 //routes
 //
 app.get('/api/memberList', (req, res) => {
