@@ -35,7 +35,7 @@ app.post('/api/addMember', async (req, res) => {
   const { firstname, email, tag } = req.body
 const addListMember = async () => {
       try {
-          const response = await  mailchimp.lists.addListMember(process.env.MAILING_LIST_ID, {
+          const response = await  mailchimp.addListMember(`/lists/${list_id}/members`, {
               email_address: email,
               status: 'subscribed',
               email_type: 'text',
