@@ -45,6 +45,10 @@ const addListMember = async () => {
               },
               tags: [tag]
           })
+          console.log("test:", req.body)
+          console.log("email:", email)
+          console.log("tag:", tag)
+          console.log("firstname:", firstname)
           res.send(response)
       }
       catch (err) {
