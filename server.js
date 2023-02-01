@@ -1,19 +1,24 @@
 const express = require('express');
 const Mailchimp = require('mailchimp-api-v3');
 const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors')
+
+const { getMaxListeners } = require('process');
 require('dotenv').config();
 
 var mc_api_key = process.env.MAILCHIMP_API_KEY;
 var list_id = process.env.MAILING_LIST_ID;
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors())
+
 const mailchimp = new Mailchimp(mc_api_key);
 
 app.use(express.static(path.resolve(__dirname, '.', 'build')));
 app.use(express.json());
 
-//routes
-//
 app.get('/api/memberList', (req, res) => {
   mailchimp.get(`/lists/${list_id}/members`)
   .then(function(results){
@@ -32,30 +37,22 @@ app.get('/api/genericCall', (req, res) => {
 });
 
 app.post('/api/addMember', async (req, res) => {
-  const { firstname, email, tag } = req.body
-const addListMember = async () => {
-      try {
-          const response = await  mailchimp.addListMember(`/lists/${list_id}/members`, {
-              email_address: email,
-              status: 'subscribed',
-              email_type: 'text',
-              merge_fields: {
+  const { firstname, lastname, email } = req.body;
+  mailchimp.post(`/lists/${list_id}/members`, {
+    email_address : email,
+    status : 'subscribed',
+    merge_fields: {
                   FNAME: firstname,
-                  LNAME: ''
-              },
-              tags: [tag]
-          })
-          console.log("test:", req.body)
-          console.log("email:", email)
-          console.log("tag:", tag)
-          console.log("firstname:", firstname)
-          res.send(response)
-      }
-      catch (err) {
-          res.status(400).send(err)
-      }
-  }
-addListMember()
+                  LNAME: lastname
+                },
+    email_type: 'text',
+  })
+  .then(function() {
+    res.status(200).json({ success: true });
+  })
+  .catch(function (err) {
+    res.status(500).json({ success: false });
+  })
 })
 
 //catch all handler
