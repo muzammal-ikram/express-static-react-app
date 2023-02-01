@@ -5,8 +5,35 @@ class App extends Component {
     super(props);
     this.state = {
       listMembers: '',
-      msg: ''
+      msg: '',
+      firstname: '',
+      lastname: '',
+      email: '',
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e, name) {
+    this.setState({ [name]: e.target.value});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    fetch("/api/addMember", {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({firstname: this.state.firstname , lastname: this.state.lastname , email: this.state.email})
+              })
+            .then(function(data) {
+            alert('Success')
+           })
+       .catch(function(error) {
+           alert('Failed')
+         });
   }
 
   getMembers = () => {
@@ -36,7 +63,6 @@ class App extends Component {
       console.log("error", err);
     });
   }
-
 
   testApiCall = () => {
     fetch("/api/genericCall")
@@ -76,6 +102,26 @@ class App extends Component {
         <hr/>
         <button onClick={this.testApiCall}>Test Api Call</button>
         <h3>{this.state.msg}</h3>
+        <hr/>
+        
+        <form onSubmit={this.handleSubmit}>
+        <label>
+          First Name:
+          <input type="text" value={this.state.firstname} onChange={ (e) => this.handleChange(e, 'firstname') }  />
+        </label>
+
+        <label>
+          Last Name:
+          <input type="text" value={this.state.lastname} onChange={(e) => this.handleChange(e, 'lastname') } />
+        </label>
+
+        <label>
+          Email:
+          <input type="text" value={this.state.email} onChange={(e) => this.handleChange(e, 'email') } />
+        </label>
+
+        <input type="submit" value="Submit" />
+      </form>
       </div>
     );
   }
