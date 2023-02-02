@@ -76,52 +76,51 @@ class App extends Component {
   }
 
   render() {
+    let mailingList;
     let members = this.state.listMembers;
-    if(this.state.listMembers){
-      return (
-        <div>
-          <h1>Mailing List Members</h1>
-          <ul>
-            {
-              members.map((member, index) =>
-                <li key={index}>{`${member.email_address}`}</li>
-              )
-            }
-          </ul>
-          <button onClick={this.addMember}>Get Members</button>
-          <hr/>
-          <button onClick={this.testApiCall}>Test Api Call</button>
-          <h1>{this.state.msg}</h1>
-        </div>
-      );
-    }
+    if (this.state.listMembers) {
+      mailingList = <div>
+                      <ul>
+                        {
+                          members.map((member, index) =>
+                            <li key={index}>{`${member.email_address}`}</li>
+                            )
+                         }
+                      </ul>
+                  </div>
+      
+    } 
     return (
       <div>
-        <h1>Mailing List Members</h1>
-        <button onClick={this.addMember}>Get Members</button>
-        <hr/>
-        <button onClick={this.testApiCall}>Test Api Call</button>
-        <h3>{this.state.msg}</h3>
-        <hr/>
-        
-        <form onSubmit={this.handleSubmit}>
-        <label>
-          First Name:
-          <input type="text" value={this.state.firstname} onChange={ (e) => this.handleChange(e, 'firstname') }  />
-        </label>
+            <div>
+              <h1>Mailing List Members</h1>
+              {mailingList}
+              <button onClick={this.addMember}>Get Members</button>
+              <hr/>
+              <button onClick={this.testApiCall}>Test Api Call</button>
+              <h1>{this.state.msg}</h1>
+            </div>
 
-        <label>
-          Last Name:
-          <input type="text" value={this.state.lastname} onChange={(e) => this.handleChange(e, 'lastname') } />
-        </label>
+        <div>
+          <form onSubmit={this.handleSubmit}>
+              <label>
+                First Name:
+                <input type="text" value={this.state.firstname} onChange={ (e) => this.handleChange(e, 'firstname') }  />
+              </label>
 
-        <label>
-          Email:
-          <input type="text" value={this.state.email} onChange={(e) => this.handleChange(e, 'email') } />
-        </label>
+              <label>
+                Last Name:
+                <input type="text" value={this.state.lastname} onChange={(e) => this.handleChange(e, 'lastname') } />
+              </label>
 
-        <input type="submit" value="Submit" />
-      </form>
+              <label>
+                Email:
+                <input type="text" value={this.state.email} onChange={(e) => this.handleChange(e, 'email') } />
+              </label>
+
+              <input type="submit" value="Submit" />
+            </form>
+        </div>
       </div>
     );
   }
